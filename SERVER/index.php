@@ -26,7 +26,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			deliver_response(200,"libri", $res);
 		break;
 		case '1':
-			$stmt = $conn->prepare("SELECT COUNT(libri.id) FROM libri join reparti on libri.reparto = reparti.id join libricategoria ");
+			$stmt = $conn->prepare("SELECT COUNT(libri.id) FROM libri join reparti on libri.reparto = reparti.id join libricategoria on libri.id = libricategoria.libro where reparti.tipo = 'fumetti' and libricategoria.categoria = 'Ultimi arrivi'");
 			$stmt->execute();
 
 			$res = $stmt->fetchAll();
@@ -44,8 +44,10 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			deliver_response(200,"libri scontati ", $res);		
 						
 		break;
-		case '3':			
-			$stmt = $conn->prepare("SELECT titolo FROM libri WHERE dataArch BETWEEN "2019-03-11" AND "2019-02-01"" );
+		case '3':
+			$data1=$_GET['data1'];
+			$data2=$_GET['data2'];			
+			$stmt = $conn->prepare("SELECT titolo FROM libri WHERE dataArch BETWEEN data1 AND data2" );
             
             deliver_response(200,"date    ", $res);    
 		break;
